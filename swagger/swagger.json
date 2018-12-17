@@ -1,0 +1,64 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "beego Test API",
+        "description": "beego has a very cool tools to autogenerate documents for your API",
+        "version": "1.0.0",
+        "termsOfService": "http://beego.me/",
+        "contact": {
+            "email": "astaxie@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "basePath": "/v1",
+    "paths": {
+        "/solicitud_soporte_plan_trabajo/docentes_solicitudes": {
+            "get": {
+                "tags": [
+                    "solicitud_soporte_plan_trabajo"
+                ],
+                "description": "create ObtenerInfoCoordinador",
+                "operationId": "SolicitudSoportePlanTrabajoController.ObtenerDocentesSolicitudes",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "iddependencia",
+                        "description": "id de la dependencia",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "estado",
+                        "description": "estado de la solicitud",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "anio",
+                        "description": "anio de la solicitud",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "periodo",
+                        "description": "semestre de la solicitud",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "solicitud_soporte_plan_trabajo",
+            "description": "SolicitudSoportePlanTrabajoController operations for SolicitudSoportePlanTrabajo\n"
+        }
+    ]
+}
