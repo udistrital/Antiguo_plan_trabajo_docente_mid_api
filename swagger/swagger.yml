@@ -38,6 +38,41 @@ paths:
         description: semestre de la solicitud
         required: true
         type: string
+  /solicitud_soporte_plan_trabajo/informacion_dependencias:
+    get:
+      tags:
+      - solicitud_soporte_plan_trabajo
+      description: recibe el documento del decano o supervisor, busca de cuales dependencias
+        es jefe
+      operationId: SolicitudSoportePlanTrabajoController.ObtenerInformacionDependencias
+      parameters:
+      - in: query
+        name: idsupervisor
+        description: id de la dependencia
+        required: true
+        type: string
+  /solicitud_soporte_plan_trabajo/solicitudes_docente:
+    get:
+      tags:
+      - solicitud_soporte_plan_trabajo
+      description: recibe el documento del docente y devuelve informacion del soporte
+      operationId: SolicitudSoportePlanTrabajoController.ObtenerSolicitudesDocente
+      parameters:
+      - in: query
+        name: cedula
+        description: cedula del docente
+        required: true
+        type: string
+      - in: query
+        name: anio
+        description: cedula del docente
+        required: true
+        type: string
+      - in: query
+        name: periodo
+        description: cedula del docente
+        required: true
+        type: string
 tags:
 - name: solicitud_soporte_plan_trabajo
   description: |

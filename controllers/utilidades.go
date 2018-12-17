@@ -98,13 +98,24 @@ func getXml(urlTarget string, target interface{}) error {
 
 func getJsonWSO2(urlp string, target interface{}) error {
 	b := new(bytes.Buffer)
+	// http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	// 	_, err := http.Get("https://golang.org/")
+	
+	
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", urlp, b)
 	req.Header.Set("Accept", "application/json")
 	r, err := client.Do(req)
 	if err != nil {
 		beego.Error("error", err)
+		// fmt.Println("_________________________")
+		// body, err := ioutil.ReadAll(r.Body)
+		// fmt.Println("_________________________")
 		return err
+	}else{
+		fmt.Println("__________err_______________")
+		fmt.Println(err)
+		fmt.Println("___________err______________")
 	}
 	defer r.Body.Close()
 

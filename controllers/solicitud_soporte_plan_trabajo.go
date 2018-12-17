@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"strings"
 	"errors"
+	"github.com/astaxie/beego/httplib"
 	//"github.com/mitchellh/mapstructure"   
 )
 
@@ -112,27 +113,31 @@ func (c *SolicitudSoportePlanTrabajoController) ObtenerDocentesSolicitudes() {
 // @Description recibe el documento del decano o supervisor, busca de cuales dependencias es jefe
 // y con los id's de esas dependencias trae informacion del nombre de oiko
 // @Param	idsupervisor	query 	string	true	"id de la dependencia"
-// @router /docentes_solicitudes [get]
+// @router /informacion_dependencias [get]
 func (c *SolicitudSoportePlanTrabajoController) ObtenerInformacionDependencias() {
 	idDependencia := c.GetString("idsupervisor")
 
 	var dependencias interface{}
-	var dependenciasOikos interface{}
+	//var dependenciasOikos interface{}
 
 	var respuesta[] interface{}
 
 	if err := getJson(beego.AppConfig.String("UrlcrudCore")+"/jefe_dependencia/?query=TerceroId:"+idDependencia, &dependencias, nil); err == nil {
 		datosDependencias := dependencias.([]interface{})
-		for _, dependencia := range datosDependencias{
-			if err2 := getJson(beego.AppConfig.String("UrlcrudOikos")+"/dependencia?query=Id:"+strconv.Itoa(dependencia["DependenciaId"]), &dependenciasOikos, nil); err2 == nil {
-				datosDependenciasOikos := dependencias.([]interface{})		
-				dependenciaAux := datosDependenciasOikos[0].(map[string]interface{})
-				respuesta = append(respuesta, dependenciaAux)		
-			}else{
-				beego.Error(err)
-				c.Abort("404")				
-			}
-		}
+		fmt.Println("______________________")
+		fmt.Println(dependencias)
+		fmt.Println(datosDependencias)
+		fmt.Println("______________________")
+		// for _, dependencia := range datosDependencias{
+		// 	if err2 := getJson(beego.AppConfig.String("UrlcrudOikos")+"/dependencia?query=Id:"+strconv.Itoa(datosDependencias["DependenciaId"]), &dependenciasOikos, nil); err2 == nil {
+		// 		datosDependenciasOikos := dependencias.([]interface{})		
+		// 		dependenciaAux := datosDependenciasOikos[0].(map[string]interface{})
+		// 		respuesta = append(respuesta, dependenciaAux)		
+		// 	}else{
+		// 		beego.Error(err)
+		// 		c.Abort("404")				
+		// 	}
+		// }
 	}else{
 		beego.Error(err)
 		c.Abort("404")
@@ -140,3 +145,38 @@ func (c *SolicitudSoportePlanTrabajoController) ObtenerInformacionDependencias()
 		c.Data["json"] = respuesta
 		c.ServeJSON()
 }
+
+// ObtenerSolicitudesDocente
+// @Title ObtenerSolicitudesDocente
+// @Description recibe el documento del docente y devuelve informacion del soporte
+// y con los id's de esas dependencias trae informacion del nombre de oiko
+// @Param	cedula	query 	string	true	"cedula del docente"
+// @Param	anio	query 	string	true	"cedula del docente"
+// @Param	periodo	query 	string	true	"cedula del docente"
+// @router /solicitudes_docente [get]
+func (c *SolicitudSoportePlanTrabajoController) ObtenerSolicitudesDocente() {
+	cedula := c.GetString("cedula")
+	anio := c.GetString("anio")
+	periodo := c.GetString("periodo")
+	var planTrabajo []interface{}
+
+
+	
+	r := httplib.Get(beego.AppConfig.String("UrlcrudAcademica")+"consulta_plan_trabajo/"+cedula+"/"+anio+"/"+periodo)
+		fmt.Println(r.String())	
+	if err := r.ToJSON(&planTrabajo); err == nil {
+			fmt.Println(r)
+		}else{
+			fmt.Println("error")
+			fmt.Println(err)
+		}
+	
+
+	// if err := getJsonWSO2(beego.AppConfig.String("UrlcrudAcademica")+"consulta_plan_trabajo/"+cedula+"/"+anio+"/"+periodo, &planTrabajo); err == nil {
+	// 	fmt.Println(planTrabajo)
+	// }else{
+	// 	fmt.Println("no funciono")
+	// 	fmt.Println(err)
+	// }
+}
+
